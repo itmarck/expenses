@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { people } from './data/people'
+import { getLocalExpenses, setLocalExpenses } from './data/storage'
 
 function Expense({ expense }) {
   return (
@@ -54,7 +55,8 @@ function ExpenseForm({ handleSubmit }) {
 }
 
 function App() {
-  const [expenses, setExpenses] = useState([])
+  const items = getLocalExpenses()
+  const [expenses, setExpenses] = useState(items)
 
   function handleSubmit(data) {
     const expense = {
@@ -64,7 +66,9 @@ function App() {
       unitPrice: data.unitPrice,
       by: people.find((person) => person.name === data.by),
     }
-    setExpenses([...expenses, expense])
+    const newExpenses = [...expenses, expense]
+    setExpenses(newExpenses)
+    setLocalExpenses(newExpenses)
   }
 
   return (
