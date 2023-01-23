@@ -50,3 +50,12 @@ button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
+
+.ExpenseTable thead {
+  font-size: 0.8rem;
+  font-weight: bold;
+}
+
+.ExpenseTable td {
+  padding: 0 1rem;
+}

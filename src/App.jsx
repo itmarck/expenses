@@ -1,13 +1,33 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { people } from './data/people'
 import { getLocalExpenses, setLocalExpenses } from './data/storage'
 
-function Expense({ expense }) {
+function ExpenseTable({ expenses }) {
   return (
-    <div>
-      {expense.id} {expense.name} Total: {expense.amount * expense.unitPrice}{' '}
-      By: {expense.by.name}
-    </div>
+    <table className="ExpenseTable">
+      <thead>
+        <tr>
+          <td>Descripción</td>
+          <td>Cantidad</td>
+          <td>Precio unitario</td>
+          <td>Total</td>
+          <td>Pagado por</td>
+        </tr>
+      </thead>
+      <tbody>
+        {expenses.map(function (expense) {
+          return (
+            <tr key={expense.id}>
+              <td>{expense.description}</td>
+              <td>{expense.amount}</td>
+              <td>{expense.unitPrice}</td>
+              <td>{expense.by.name}</td>
+              <td>{expense.amount * expense.unitPrice}</td>
+            </tr>
+          )
+        })}
+      </tbody>
+    </table>
   )
 }
 
@@ -25,15 +45,15 @@ function ExpenseForm({ handleSubmit }) {
     <form onSubmit={onSubmit}>
       <div>
         <label htmlFor="description">Descripción</label>
-        <input type="text" name="description" />
+        <input title="No" type="text" name="description" />
       </div>
       <div>
         <label htmlFor="amount">Cantidad</label>
-        <input type="number" name="amount" id="amount" />
+        <input title="No" type="number" name="amount" id="amount" />
       </div>
       <div>
         <label htmlFor="unitPrice">Precio unitario</label>
-        <input type="number" name="unitPrice" id="unitPrice" />
+        <input title="No" type="number" name="unitPrice" step={0.01} />
       </div>
 
       <div>
@@ -55,13 +75,16 @@ function ExpenseForm({ handleSubmit }) {
 }
 
 function App() {
-  const items = getLocalExpenses()
-  const [expenses, setExpenses] = useState(items)
+  const [expenses, setExpenses] = useState([])
+
+  useEffect(function () {
+    setExpenses(getLocalExpenses())
+  }, [])
 
   function handleSubmit(data) {
     const expense = {
       id: Date.now(),
-      name: data.name,
+      description: data.description,
       amount: data.amount,
       unitPrice: data.unitPrice,
       by: people.find((person) => person.name === data.by),
@@ -73,9 +96,7 @@ function App() {
 
   return (
     <div className="App">
-      {expenses.map(function (expense) {
-        return <Expense key={expense.id} expense={expense} />
-      })}
+      <ExpenseTable expenses={expenses} />
 
       <ExpenseForm handleSubmit={handleSubmit} />
     </div>
