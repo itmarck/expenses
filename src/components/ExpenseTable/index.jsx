@@ -6,8 +6,8 @@ export function ExpenseTable({ expenses }) {
           <td>Descripción</td>
           <td>Cantidad</td>
           <td>Precio unitario</td>
-          <td>Total</td>
           <td>Pagado por</td>
+          <td>Total</td>
         </tr>
       </thead>
       <tbody>

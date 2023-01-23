@@ -24,11 +24,19 @@ export function ExpenseBoard() {
     setLocalExpenses(newExpenses)
   }
 
+  const totalExpenses = expenses.reduce(function (previous, current) {
+    return previous + current.amount * current.unitPrice
+  }, 0)
+
+  const expensesPeople = expenses.map((expense) => expense.by.name)
+  const peopleQuantity = new Set(expensesPeople).size
+  const total = totalExpenses / peopleQuantity
+
   return (
     <div className="App">
       <ExpenseTable expenses={expenses} />
-
       <ExpenseForm handleSubmit={handleSubmit} />
+      <div>El total por persona es {total}</div>
     </div>
   )
 }
