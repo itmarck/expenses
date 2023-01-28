@@ -1,28 +1,40 @@
+import { Table } from 'antd'
+
+const columns = [
+  {
+    title: 'Descripción',
+    dataIndex: 'description',
+  },
+  {
+    title: 'Cantidad',
+    dataIndex: 'amount',
+  },
+  {
+    title: 'Precio unitario',
+    dataIndex: 'unitPrice',
+  },
+  {
+    title: 'Pagado por',
+    dataIndex: 'by',
+    render(value) {
+      return value && value.name
+    },
+  },
+  {
+    title: 'Total',
+    render(value) {
+      return value.amount * value.unitPrice
+    },
+  },
+]
+
 export function ExpenseTable({ expenses }) {
   return (
-    <table className="ExpenseTable">
-      <thead>
-        <tr>
-          <td>Descripción</td>
-          <td>Cantidad</td>
-          <td>Precio unitario</td>
-          <td>Pagado por</td>
-          <td>Total</td>
-        </tr>
-      </thead>
-      <tbody>
-        {expenses.map(function (expense) {
-          return (
-            <tr key={expense.id}>
-              <td>{expense.description}</td>
-              <td>{expense.amount}</td>
-              <td>{expense.unitPrice}</td>
-              <td>{expense.by.name}</td>
-              <td>{expense.amount * expense.unitPrice}</td>
-            </tr>
-          )
-        })}
-      </tbody>
-    </table>
+    <Table
+      rowKey="id"
+      dataSource={expenses}
+      columns={columns}
+      pagination={false}
+    />
   )
 }

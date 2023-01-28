@@ -1,4 +1,5 @@
 import { people } from '../../data/people'
+import { Button } from 'antd'
 
 export function ExpenseForm({ handleSubmit }) {
   function onSubmit(event) {
@@ -38,7 +39,9 @@ export function ExpenseForm({ handleSubmit }) {
         </select>
       </div>
 
-      <button type="submit">Agregar</button>
+      <Button type="primary" htmlType="sumbit">
+        Agregar
+      </Button>
     </form>
   )
 }
