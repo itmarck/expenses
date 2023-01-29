@@ -1,28 +1,11 @@
 import { Avatar, Layout, Menu, theme } from 'antd'
-import { useState } from 'react'
+import { initialTravels } from '../../data/travels'
+import { useTravel } from '../../hooks/useTravel'
 
 const { Sider, Content } = Layout
 
-const initialTravels = [
-  {
-    id: '001',
-    place: 'Huaraz',
-    image: 'https://picsum.photos/32/32?id=001',
-  },
-  {
-    id: '002',
-    place: 'Chiclayo',
-    image: 'https://picsum.photos/32/32?id=002',
-  },
-  {
-    id: '003',
-    place: 'Cajamarca',
-    image: 'https://picsum.photos/32/32?id=003',
-  },
-]
-
 export function ExpenseLayout({ children }) {
-  const [travels, setTravels] = useState(initialTravels)
+  const { travel, setSelectedTravel } = useTravel()
 
   const {
     token: { colorBgContainer },
@@ -39,7 +22,8 @@ export function ExpenseLayout({ children }) {
       <Sider width={200}>
         <Menu
           mode="inline"
-          defaultSelectedKeys={initialTravels[0].id}
+          defaultSelectedKeys={travel.id}
+          onSelect={(value) => setSelectedTravel(value.key)}
           style={{ height: '100%' }}
           items={items}
         />

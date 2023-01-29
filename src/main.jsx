@@ -3,6 +3,7 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { ExpenseBoard } from './components/ExpenseBoard'
 import { ExpenseLayout } from './components/ExpenseLayout'
+import { TravelProvider } from './hooks/useTravel'
 
 import './App.css'
 
@@ -19,9 +20,11 @@ root.render(
           <Header />
 
           <Content style={{ padding: '2rem 4rem' }}>
-            <ExpenseLayout>
-              <ExpenseBoard />
-            </ExpenseLayout>
+            <TravelProvider>
+              <ExpenseLayout>
+                <ExpenseBoard />
+              </ExpenseLayout>
+            </TravelProvider>
           </Content>
 
           <Footer style={{ textAlign: 'center' }}>
