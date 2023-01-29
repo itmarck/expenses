@@ -1,8 +1,10 @@
+import { Typography } from 'antd'
 import { useEffect, useState } from 'react'
 import { people } from '../../data/people'
 import { getLocalExpenses, setLocalExpenses } from '../../data/storage'
-import { ExpenseForm } from '../ExpenseForm'
 import { ExpenseTable } from '../ExpenseTable'
+
+const { Text } = Typography
 
 export function ExpenseBoard() {
   const [expenses, setExpenses] = useState(getLocalExpenses())
@@ -42,12 +44,16 @@ export function ExpenseBoard() {
   const peopleQuantity = new Set(expensesPeople).size
   const total = totalExpenses / peopleQuantity
 
-  // TODO: Show total in the board
-
   return (
-    <div className="App">
-      <ExpenseForm handleSubmit={handleSubmit} />
-      <ExpenseTable expenses={expenses} onRowDelete={onRowDelete} />
-    </div>
+    <ExpenseTable
+      expenses={expenses}
+      onRowDelete={onRowDelete}
+      handleSubmit={handleSubmit}
+      footer={() => (
+        <Text type="secondary">
+          El total por persona es <Text>S/ {total.toFixed(2)}</Text>
+        </Text>
+      )}
+    />
   )
 }
