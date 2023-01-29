@@ -5,11 +5,23 @@ import { ExpenseForm } from '../ExpenseForm'
 import { ExpenseTable } from '../ExpenseTable'
 
 export function ExpenseBoard() {
-  const [expenses, setExpenses] = useState([])
+  const [expenses, setExpenses] = useState(getLocalExpenses())
 
-  useEffect(function () {
-    setExpenses(getLocalExpenses())
-  }, [])
+  useEffect(() => {
+    setLocalExpenses(expenses)
+  }, [expenses])
+
+  function deleteExpense(id) {
+    setExpenses(expenses.filter((expense) => expense.id != id))
+  }
+
+  function onRowDelete(event) {
+    const target = event && event.target
+    const parent = target && target.parentElement
+    const id = parent && parent.id
+
+    id && deleteExpense(id)
+  }
 
   function handleSubmit(data) {
     const expense = {
@@ -19,9 +31,7 @@ export function ExpenseBoard() {
       unitPrice: data.unitPrice,
       by: people.find((person) => person.name === data.by),
     }
-    const newExpenses = [...expenses, expense]
-    setExpenses(newExpenses)
-    setLocalExpenses(newExpenses)
+    setExpenses([...expenses, expense])
   }
 
   const totalExpenses = expenses.reduce(function (previous, current) {
@@ -34,7 +44,7 @@ export function ExpenseBoard() {
 
   return (
     <div className="App">
-      <ExpenseTable expenses={expenses} />
+      <ExpenseTable expenses={expenses} onRowDelete={onRowDelete} />
       <ExpenseForm handleSubmit={handleSubmit} />
       <div>El total por persona es {total}</div>
     </div>
