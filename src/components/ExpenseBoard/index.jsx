@@ -42,11 +42,12 @@ export function ExpenseBoard() {
   const peopleQuantity = new Set(expensesPeople).size
   const total = totalExpenses / peopleQuantity
 
+  // TODO: Show total in the board
+
   return (
     <div className="App">
-      <ExpenseTable expenses={expenses} onRowDelete={onRowDelete} />
       <ExpenseForm handleSubmit={handleSubmit} />
-      <div>El total por persona es {total}</div>
+      <ExpenseTable expenses={expenses} onRowDelete={onRowDelete} />
     </div>
   )
 }

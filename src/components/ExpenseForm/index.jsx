@@ -1,15 +1,51 @@
 import { people } from '../../data/people'
-import { Button } from 'antd'
+import { Button, Form, Input, Select } from 'antd'
 
 export function ExpenseForm({ handleSubmit }) {
-  function onSubmit(event) {
-    event.preventDefault()
+  const [form] = Form.useForm()
 
-    const formData = new FormData(event.target)
-    const formProps = Object.fromEntries(formData)
-
-    handleSubmit(formProps)
+  function onFinish(values) {
+    handleSubmit(values)
   }
+
+  return (
+    <Form
+      layout="vertical"
+      form={form}
+      style={{ maxWidth: 240 }}
+      onFinish={onFinish}
+      initialValues={{
+        amount: 0,
+        unitPrice: 0,
+        by: people[0].name,
+      }}
+    >
+      <Form.Item name="description" label="Descripción">
+        <Input placeholder="Descripción del gasto" />
+      </Form.Item>
+      <Form.Item name="amount" label="Cantidad">
+        <Input type="number" min={0} />
+      </Form.Item>
+      <Form.Item name="unitPrice" label="Precio unitario">
+        <Input type="number" min={0} step={0.1} />
+      </Form.Item>
+      <Form.Item name="by" label="Pagado por">
+        <Select
+          options={people.map((person) => {
+            return {
+              value: person.name,
+              label: person.name,
+            }
+          })}
+        />
+      </Form.Item>
+      <Form.Item>
+        <Button type="primary" htmlType="submit" block>
+          Agregar
+        </Button>
+      </Form.Item>
+    </Form>
+  )
 
   return (
     <form onSubmit={onSubmit}>
